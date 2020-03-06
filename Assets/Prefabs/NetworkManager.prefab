@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8168310504892942815}
-  - component: {fileID: 8168310504892942808}
-  - component: {fileID: 8168310504892942809}
-  - component: {fileID: 8168310504892942814}
+  - component: {fileID: 3508894567763991857}
+  - component: {fileID: 52979719808019138}
+  - component: {fileID: 8007723903392111943}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8168310504892942808
+--- !u!114 &3508894567763991857
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,8 +51,8 @@ MonoBehaviour:
   showDebugMessages: 0
   serverTickRate: 30
   offlineScene: Offline
-  onlineScene: Online
-  transport: {fileID: 8168310504892942809}
+  onlineScene: OnlineGame
+  transport: {fileID: 52979719808019138}
   networkAddress: localhost
   maxConnections: 4
   authenticator: {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 4871481134406428151, guid: 4954566362b697d4487b11e28b185598, type: 3}
---- !u!114 &8168310504892942809
+--- !u!114 &52979719808019138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   NoDelay: 1
   serverMaxMessageSize: 16384
   clientMaxMessageSize: 16384
---- !u!114 &8168310504892942814
+--- !u!114 &8007723903392111943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
