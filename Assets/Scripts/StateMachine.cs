@@ -5,34 +5,34 @@ using UnityEngine;
 public class StateMachine
 {
     private State currentstate;
-    public int stateofstate = 0; //0 = em espera, 1 = inicializando, 2 = em loop, 3 = encerrando;
+    public bool running = false;    //Rodando estado
+    public bool loop = false;       //Já rodou Start() uma vez;
 
-    public void ChangeCurrent(State newcurrent)
+    public void ChangeCurrent(State newcurrent) //Chamar somente dentro de um estado
     {
         currentstate = newcurrent;
     }
 
     public void ExecuteState()
     {
-        switch (stateofstate)
+        if(!running)
         {
-            case 0:
-                currentstate.Play();
-                break;
-            case 1:
-                Debug.Log("Busy starting a state");
-                break;
-            case 2:
+            if (!loop)
+            {
+                currentstate.Start();
+            }
+            else
+            {
                 currentstate.Loop();
-                break;
-            case 3:
-                Debug.Log("Busy ending a state");
-                break;
+            }
         }
     }
 
     public void EndState()
     {
-        if()
+        if (!running)
+        {
+            currentstate.Stop();
+        }
     }
 }

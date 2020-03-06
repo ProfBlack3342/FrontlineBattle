@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
-    static public GameManager singleton;
+    public static GameManager singleton;
 
-    private StateMachine machine;
-    private State[] states = new State[6];
+    public StateMachine machine;
+    public State[] states = new State[6];
+
+    public bool endstateflag;
 
     private void Awake()
     {
@@ -33,12 +36,21 @@ public class GameManager : MonoBehaviour
         states[5] = new OnlinePause();
         states[6] = new OnlineEnd();
 
+        endstateflag = false;
+
         machine.ChangeCurrent(states[0]);
         machine.ExecuteState();
     }
 
     private void Update()
     {
-        if()
+        if (!endstateflag)
+        {
+            machine.ExecuteState();
+        }
+        else
+        {
+            machine.EndState();
+        }
     }
 }
