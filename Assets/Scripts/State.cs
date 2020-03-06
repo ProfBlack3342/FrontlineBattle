@@ -20,6 +20,7 @@ public class OfflineMenu : State
     public OfflineMenu()
     {
         StateName = "OfflineMenu";
+        host = true;
     }
 
     public override void Start()
@@ -52,7 +53,7 @@ public class OfflineMenu : State
         GameManager.singleton.machine.loop = false;
         GameManager.singleton.machine.running = true;
 
-        //Código
+        /*Código
         if (host)
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[1]);
@@ -61,18 +62,21 @@ public class OfflineMenu : State
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[2]);
         }
+        */
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
     }
 }
 
-public class OfflineWaiting : State
+public class OnlineWaiting : State
 {
+    bool foundplayers;
 
-    public OfflineWaiting()
+    public OnlineWaiting()
     {
-        StateName = "OfflineWaiting";
+        StateName = "OnlineWaiting";
+        foundplayers = false;
     }
 
     public override void Start()
@@ -106,18 +110,28 @@ public class OfflineWaiting : State
         GameManager.singleton.machine.running = true;
 
         //Código
-        GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+        if (foundplayers)
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+        }
+        else
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[0]);
+        }
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
     }
 }
 
-public class OfflineConnecting : State
+public class OnlineConnecting : State
 {
-    public OfflineConnecting()
+    bool foundhost;
+
+    public OnlineConnecting()
     {
-        StateName = "OfflineConnecting";
+        StateName = "OnlineConnecting";
+        foundhost = false;
     }
 
     public override void Start()
@@ -151,7 +165,14 @@ public class OfflineConnecting : State
         GameManager.singleton.machine.running = true;
 
         //Código
-        GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+        if (foundhost)
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+        }
+        else
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[0]);
+        }
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -165,6 +186,7 @@ public class OnlinePlay : State
     public OnlinePlay()
     {
         StateName = "OnlinePlay";
+        pause = false;
     }
 
     public override void Start()
@@ -219,6 +241,7 @@ public class OnlinePause : State
     public OnlinePause()
     {
         StateName = "OnlinePause";
+        resume = false;
     }
 
     public override void Start()

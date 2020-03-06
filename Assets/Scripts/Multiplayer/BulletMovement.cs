@@ -7,20 +7,27 @@ public class BulletMovement : NetworkBehaviour
 {
     private float speed;
     Transform self;
+    float timer;
 
     private void Awake()
     {
-        speed = 4.5f;
+        speed = 0.5f;
         self =  GetComponent<Transform>();
+        timer = 2;
+
+        Destroy(gameObject, timer);
     }
 
     private void FixedUpdate()
     {
-        self.Translate(speed, 0, 0);
+        self.Translate(speed, 0, 0, Space.Self);
+    }
 
-        if(Time.deltaTime > 5)
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag != "Trap" && other.tag != "Map")
         {
-            Destroy(this);
+            Destroy(gameObject, 0.2f);
         }
     }
 }

@@ -10,7 +10,7 @@ public class PlayerMovement : NetworkBehaviour
     public GameObject bullet;
     public GameObject bulletspawn;
     public GameObject cannon;
-    private Vector3 mousepos;
+    private Vector2 mousepos;
 
     private void Awake()
     {

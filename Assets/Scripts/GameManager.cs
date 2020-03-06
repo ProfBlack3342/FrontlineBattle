@@ -30,8 +30,8 @@ public class GameManager : NetworkBehaviour
         machine = new StateMachine();
 
         states[0] = new OfflineMenu();
-        states[1] = new OfflineWaiting();
-        states[2] = new OfflineConnecting();
+        states[1] = new OnlineWaiting();
+        states[2] = new OnlineConnecting();
         states[3] = new OnlinePlay();
         states[4] = new OnlinePause();
         states[5] = new OnlineEnd();
