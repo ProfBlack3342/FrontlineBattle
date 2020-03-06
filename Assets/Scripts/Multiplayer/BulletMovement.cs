@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class BulletMovement : MonoBehaviour
+public class BulletMovement : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float speed;
+    Transform self;
+
+    private void Awake()
     {
-        
+        speed = 4.5f;
+        self =  GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        self.Translate(speed, 0, 0);
+
+        if(Time.deltaTime > 5)
+        {
+            Destroy(this);
+        }
     }
 }

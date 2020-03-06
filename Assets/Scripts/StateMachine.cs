@@ -10,19 +10,24 @@ public class StateMachine
 
     public void ChangeCurrent(State newcurrent) //Chamar somente dentro de um estado
     {
+        Debug.Log("Changing State to " + newcurrent.StateName);
         currentstate = newcurrent;
     }
 
     public void ExecuteState()
     {
-        if(!running)
+        Debug.Log("Attempting to Execute State");
+
+        if (!running)
         {
             if (!loop)
             {
+                Debug.Log("Executing Start() on " + currentstate.StateName);
                 currentstate.Start();
             }
             else
             {
+                Debug.Log("Executing Loop() on " + currentstate.StateName);
                 currentstate.Loop();
             }
         }
@@ -32,6 +37,7 @@ public class StateMachine
     {
         if (!running)
         {
+            Debug.Log("Executing Stop() on " + currentstate.StateName);
             currentstate.Stop();
         }
     }

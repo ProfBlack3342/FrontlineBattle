@@ -21,6 +21,7 @@ public class GameManager : NetworkBehaviour
         else
         {
             singleton = this;
+            DontDestroyOnLoad(this);
         }
     }
 
@@ -28,13 +29,12 @@ public class GameManager : NetworkBehaviour
     {
         machine = new StateMachine();
 
-        states[0] = new Pre();
-        states[1] = new OfflineMenu();
-        states[2] = new OfflineWaiting();
-        states[3] = new OfflineConnecting();
-        states[4] = new OnlinePlay();
-        states[5] = new OnlinePause();
-        states[6] = new OnlineEnd();
+        states[0] = new OfflineMenu();
+        states[1] = new OfflineWaiting();
+        states[2] = new OfflineConnecting();
+        states[3] = new OnlinePlay();
+        states[4] = new OnlinePause();
+        states[5] = new OnlineEnd();
 
         endstateflag = false;
 
@@ -46,10 +46,12 @@ public class GameManager : NetworkBehaviour
     {
         if (!endstateflag)
         {
+            Debug.Log("Update() calling for ExecuteState()");
             machine.ExecuteState();
         }
         else
         {
+            Debug.Log("Update() calling for EndState()");
             machine.EndState();
         }
     }

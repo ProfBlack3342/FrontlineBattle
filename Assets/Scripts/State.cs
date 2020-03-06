@@ -13,53 +13,10 @@ public abstract class State
 
 }
 
-public class Pre : State
-{
-    public Pre()
-    {
-        StateName = "Pre";
-    }
-
-    public override void Start()
-    {
-        Debug.Log("Pre Start");
-
-        GameManager.singleton.machine.running = true;
-
-        //Código
-
-        GameManager.singleton.machine.loop = true;
-        GameManager.singleton.machine.running = false;
-    }
-
-    public override void Loop()
-    {
-        Debug.Log("Pre Loop");
-
-        GameManager.singleton.machine.running = true;
-
-        //Código
-
-        GameManager.singleton.endstateflag = true;
-        GameManager.singleton.machine.running = false;
-    }
-
-    public override void Stop()
-    {
-        Debug.Log("Pre Stop");
-
-        GameManager.singleton.machine.loop = false;
-        GameManager.singleton.machine.running = true;
-
-        SceneManager.LoadScene(1);
-
-        GameManager.singleton.machine.running = false;
-        GameManager.singleton.endstateflag = false;
-    }
-}
-
 public class OfflineMenu : State
 {
+    private bool host;
+
     public OfflineMenu()
     {
         StateName = "OfflineMenu";
@@ -96,6 +53,14 @@ public class OfflineMenu : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        if (host)
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[1]);
+        }
+        else
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[2]);
+        }
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -104,6 +69,7 @@ public class OfflineMenu : State
 
 public class OfflineWaiting : State
 {
+
     public OfflineWaiting()
     {
         StateName = "OfflineWaiting";
@@ -140,6 +106,7 @@ public class OfflineWaiting : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -184,6 +151,7 @@ public class OfflineConnecting : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -192,6 +160,8 @@ public class OfflineConnecting : State
 
 public class OnlinePlay : State
 {
+    bool pause;
+
     public OnlinePlay()
     {
         StateName = "OnlinePlay";
@@ -228,6 +198,14 @@ public class OnlinePlay : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        if (pause)
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[4]);
+        }
+        else
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[5]);
+        }
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -236,6 +214,8 @@ public class OnlinePlay : State
 
 public class OnlinePause : State
 {
+    bool resume;
+
     public OnlinePause()
     {
         StateName = "OnlinePause";
@@ -272,6 +252,14 @@ public class OnlinePause : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        if (resume)
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+        }
+        else
+        {
+            GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[5]);
+        }
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -316,6 +304,7 @@ public class OnlineEnd : State
         GameManager.singleton.machine.running = true;
 
         //Código
+        GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[0]);
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
