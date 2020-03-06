@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - Trap
   - Spawn
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -44,4 +45,28 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Map
+    uniqueID: 2479259921
+    locked: 0
+  - name: Obstacles
+    uniqueID: 2571228905
+    locked: 0
+  - name: Moving Objects
+    uniqueID: 3544185287
+    locked: 0
+  - name: TankTracks
+    uniqueID: 2580773349
+    locked: 0
+  - name: TankBody
+    uniqueID: 1493166335
+    locked: 0
+  - name: TankCannon
+    uniqueID: 2600465603
+    locked: 0
+  - name: FX
+    uniqueID: 654786365
+    locked: 0
+  - name: UI
+    uniqueID: 2243363945
     locked: 0
