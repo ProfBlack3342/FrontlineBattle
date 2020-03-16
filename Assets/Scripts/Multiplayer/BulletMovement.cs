@@ -6,28 +6,31 @@ using Mirror;
 public class BulletMovement : NetworkBehaviour
 {
     private float speed;
-    Transform self;
+    private Transform self;
     float timer;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
-        speed = 0.5f;
+        speed = 10f;
         self =  GetComponent<Transform>();
-        timer = 2;
-
-        Destroy(gameObject, timer);
+        rb = GetComponent<Rigidbody2D>();
+        timer = 2; 
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
-        self.Translate(speed, 0, 0, Space.Self);
+        Vector2 force = new Vector2(speed, 0);
+
+        rb.AddRelativeForce(force);
+        Destroy(gameObject, timer);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag != "Trap" && other.tag != "Map")
         {
-            Destroy(gameObject, 0.2f);
+            Destroy(gameObject);
         }
     }
 }

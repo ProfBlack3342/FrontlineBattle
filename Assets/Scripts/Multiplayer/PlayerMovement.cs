@@ -5,52 +5,59 @@ using Mirror;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private float Fspeed, Rspeed;
     public GameObject bullet;
     public GameObject bulletspawn;
     public GameObject cannon;
+
     private Vector2 mousepos;
+    public Camera cam;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Fspeed = 2.5f;
-        Rspeed = 1;
+        rb.gravityScale = 0;
+        Fspeed = 1000f;
+        Rspeed = 5f;
+        cam = Camera.main;
     }
 
     private void FixedUpdate()
     {
         if(isLocalPlayer)
         {
-            float v = Input.GetAxis("Vertical");
-            float h = Input.GetAxis("Horizontal");
-
-            Movement(v);
-            Rotation(h);
-
-            mousepos = Input.mousePosition;
-            mousepos = Camera.main.ScreenToWorldPoint(mousepos);
-            cannon.transform.LookAt(mousepos);
-
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.anyKey)
             {
-                Instantiate(bullet, bulletspawn.transform.position, Quaternion.identity);
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+                    Movement();
+
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+                    Rotation();
+
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                    Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
             }
+
         }
     }
 
-    private void Movement(float input)
+    private void Movement()
     {
-        float movement = input * Fspeed * Time.deltaTime;
-
-        rb.velocity = transform.forward * movement;
+        Debug.Log("Movement");
+        Vector2 input = new Vector2((Input.GetAxisRaw("Vertical") * Fspeed * Time.deltaTime), 0);
+        rb.AddRelativeForce(input);
     }
 
-    private void Rotation(float input)
-    {
-        float rotation = input * Rspeed * Time.deltaTime;
 
-        rb.MoveRotation(rb.rotation * rotation);
+    private void Rotation()
+    {
+        Debug.Log("Rotation");
+        float input = Input.GetAxisRaw("Horizontal");
+
+        rb.AddTorque(input);
     }
+
 }
