@@ -9,6 +9,7 @@ TagManager:
   - Trap
   - Spawn
   - Map
+  - FX
   layers:
   - Default
   - TransparentFX
