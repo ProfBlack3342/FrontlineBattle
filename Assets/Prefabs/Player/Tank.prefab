@@ -599,7 +599,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010768466, y: 0}
+  m_Offset: {x: -0.015477158, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -610,7 +610,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.28272063, y: 0.20636731}
+  m_Size: {x: 0.27425426, y: 0.20636731}
   m_EdgeRadius: 0
 --- !u!61 &1952478266835063999
 BoxCollider2D:
@@ -625,7 +625,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010768466, y: 0}
+  m_Offset: {x: 0.0014554933, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -636,7 +636,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31553757, y: 0.25877997}
+  m_Size: {x: 0.32739043, y: 0.25877997}
   m_EdgeRadius: 0
 --- !u!50 &344052765838285364
 Rigidbody2D:
@@ -692,7 +692,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  HP: 0
+  ammo: 0
   id: 0
+  isalive: 0
   cam: {fileID: 3972820335411741579, guid: 86f1c85f95026b54d952ee4b1186f32f, type: 3}
 --- !u!95 &3842926563017097575
 Animator:
