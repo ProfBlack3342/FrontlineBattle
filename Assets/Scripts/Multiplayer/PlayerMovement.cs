@@ -21,7 +21,6 @@ public class PlayerMovement : NetworkBehaviour
         rb.gravityScale = 0;
         Fspeed = 1000f;
         Rspeed = 5f;
-        cam = Camera.main;
     }
 
     private void FixedUpdate()
@@ -36,11 +35,15 @@ public class PlayerMovement : NetworkBehaviour
                 if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
                     Rotation();
 
-
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                     Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
             }
 
+            Vector3 mousepos = Input.mousePosition;
+            mousepos = cam.ScreenToWorldPoint(mousepos);
+
+            Vector2 direction = new Vector2(mousepos.x, mousepos.y);
+            cannon.transform.right = direction;
         }
     }
 
@@ -55,7 +58,7 @@ public class PlayerMovement : NetworkBehaviour
     private void Rotation()
     {
         Debug.Log("Rotation");
-        float input = Input.GetAxisRaw("Horizontal");
+        float input = -Input.GetAxisRaw("Horizontal");
 
         rb.AddTorque(input);
     }

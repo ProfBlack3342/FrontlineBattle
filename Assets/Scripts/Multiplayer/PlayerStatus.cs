@@ -5,8 +5,47 @@ using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    private float HP;
-    private int Ammo;
+    private int HP;
+    private int ammo;
+    public uint id;
+    private Vector2 speed;
+    public Camera cam;
+
+    private StateMachine machine;
+    private PlayerMovement movement;
+
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        if (isClient)
+        {
+            if (isServer)
+                id = 1;
+            else
+                id = 2;
+        }
+        HP = 100;
+        ammo = 5;
+        speed = new Vector2(0, 3);
+        rb = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerMovement>();
+    }
+
+    private void Start()
+    {
+        if(isLocalPlayer)
+        {
+            Instantiate(cam, gameObject.transform);
+            cam.tag = "MainCamera";
+            movement.cam = cam;
+        }
+    }
+
+    private void Update()
+    {
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,17 +53,13 @@ public class PlayerStatus : NetworkBehaviour
         {
             case("Bullet"):
                 {
-
-                    break;
-                }
-            case ("Map"):
-                {
-
+                    HP -= 25;
                     break;
                 }
             case ("Obstacle"):
                 {
-
+                    if(rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
+                    HP -= 1;
                     break;
                 }
             case ("Trap"):
@@ -32,12 +67,17 @@ public class PlayerStatus : NetworkBehaviour
 
                     break;
                 }
+            case ("Player"):
+                {
+
+                    break;
+                }
         }
     }
 
-    public void SetHP(float HP) { this.HP = HP; }
-    public float GetHP() { return HP; }
+    public void SetHP(int HP) { this.HP = HP; }
+    public int GetHP() { return HP; }
 
-    public void SetAmmo(int Ammo) { this.Ammo = Ammo; }
-    public int GetAmmo() { return Ammo; }
+    public void SetAmmo(int ammo) { this.ammo = ammo; }
+    public int GetAmmo() { return ammo; }
 }
