@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour
     {
         if (singleton != this && singleton != null)
         {
-            GameObject.Destroy(this);
+            Destroy(this);
         }
         else
         {
@@ -46,12 +46,12 @@ public class GameManager : NetworkBehaviour
     {
         if (!endstateflag)
         {
-            Debug.Log("Update() calling for ExecuteState()");
+            Debug.Log("GameManager Update() calling for ExecuteState()");
             machine.ExecuteState();
         }
         else
         {
-            Debug.Log("Update() calling for EndState()");
+            Debug.Log("GameManager Update() calling for EndState()");
             machine.EndState();
         }
     }
