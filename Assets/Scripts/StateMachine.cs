@@ -16,8 +16,6 @@ public class StateMachine
 
     public void ExecuteState()
     {
-        Debug.Log("Attempting to Execute State");
-
         if (!running)
         {
             if (!loop)
@@ -30,6 +28,10 @@ public class StateMachine
                 Debug.Log("Executing Loop() on " + currentstate.StateName);
                 currentstate.Loop();
             }
+        }
+        else
+        {
+            Debug.Log(currentstate.StateName + "is still running a state");
         }
     }
 

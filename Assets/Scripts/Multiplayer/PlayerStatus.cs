@@ -9,12 +9,13 @@ public class PlayerStatus : NetworkBehaviour
     private int ammo;
     public uint id;
     private Vector2 speed;
-    public Camera cam;
+    private bool endstateflag;
 
-    private StateMachine machine;
+    public StateMachine machine;
     private PlayerMovement movement;
 
     private Rigidbody2D rb;
+    public Camera cam;
 
     private void Awake()
     {
@@ -28,7 +29,9 @@ public class PlayerStatus : NetworkBehaviour
         HP = 100;
         ammo = 5;
         speed = new Vector2(0, 3);
+        endstateflag = false;
         rb = GetComponent<Rigidbody2D>();
+        machine = new StateMachine();
         movement = GetComponent<PlayerMovement>();
     }
 
@@ -44,7 +47,16 @@ public class PlayerStatus : NetworkBehaviour
 
     private void Update()
     {
-        
+        if (!endstateflag)
+        {
+            Debug.Log("Player Update() calling for ExecuteState()");
+            machine.ExecuteState();
+        }
+        else
+        {
+            Debug.Log("Player Update() calling for EndState()");
+            machine.EndState();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
