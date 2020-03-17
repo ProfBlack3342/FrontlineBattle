@@ -5,13 +5,12 @@ using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    private int HP;
-    private int ammo;
+    [SerializeField]private int HP;
+    [SerializeField]private int ammo;
     public uint id;
     private Vector2 speed;
-    private bool endstateflag;
+    public bool isalive;
 
-    public StateMachine machine;
     private PlayerMovement movement;
 
     private Rigidbody2D rb;
@@ -19,20 +18,25 @@ public class PlayerStatus : NetworkBehaviour
 
     private void Awake()
     {
-        if (isClient)
+        if(isClient)
         {
-            if (isServer)
-                id = 1;
-            else
-                id = 2;
+            id = 2;
         }
+        if (isServer)
+        {
+            id = 1;
+        }
+
         HP = 100;
         ammo = 5;
         speed = new Vector2(0, 3);
-        endstateflag = false;
-        rb = GetComponent<Rigidbody2D>();
-        machine = new StateMachine();
+        isalive = true;
+
         movement = GetComponent<PlayerMovement>();
+        movement.enabled = true;
+
+        rb = GetComponent<Rigidbody2D>();
+        
     }
 
     private void Start()
@@ -47,16 +51,20 @@ public class PlayerStatus : NetworkBehaviour
 
     private void Update()
     {
-        if (!endstateflag)
+        if (isLocalPlayer)
         {
-            Debug.Log("Player Update() calling for ExecuteState()");
-            machine.ExecuteState();
+            if (HP <= 0)
+            {
+                CmdPlayerDead();
+            }
+            Debug.Log("HP = " + HP);
         }
-        else
-        {
-            Debug.Log("Player Update() calling for EndState()");
-            machine.EndState();
-        }
+    }   
+
+    [Command] void CmdPlayerDead()
+    {
+        movement.enabled = false;
+        isalive = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -71,25 +79,31 @@ public class PlayerStatus : NetworkBehaviour
             case ("Obstacle"):
                 {
                     if(rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                    HP -= 1;
+                        HP -= 5;
                     break;
                 }
             case ("Trap"):
                 {
-
+                    HP -= 25;
                     break;
                 }
             case ("Player"):
                 {
-
+                    if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
+                        HP -= 1;
+                    break;
+                }
+            case ("Ammo"):
+                {
+                    ammo += 4;
                     break;
                 }
         }
     }
 
-    public void SetHP(int HP) { this.HP = HP; }
+    [Command]public void CmdSetHP(int HP) { this.HP = HP; }
     public int GetHP() { return HP; }
 
-    public void SetAmmo(int ammo) { this.ammo = ammo; }
+    [Command]public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
     public int GetAmmo() { return ammo; }
 }

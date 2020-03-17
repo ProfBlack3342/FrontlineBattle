@@ -5,22 +5,26 @@ using Mirror;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    public Rigidbody2D rb;
     private float Fspeed, Rspeed;
+    private Vector2 mousepos;
+
+    public Rigidbody2D rb;
     public GameObject bullet;
     public GameObject bulletspawn;
     public GameObject cannon;
-
-    private Vector2 mousepos;
     public Camera cam;
 
+    private PlayerStatus status;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0;
         Fspeed = 1000f;
         Rspeed = 5f;
+
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+
+        status = GetComponent<PlayerStatus>();
     }
 
     private void FixedUpdate()
@@ -36,7 +40,17 @@ public class PlayerMovement : NetworkBehaviour
                     Rotation();
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
-                    Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
+                {
+                    if (status.GetAmmo() > 0)
+                    {
+                        Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
+                        status.CmdSetAmmo(status.GetAmmo() - 1);
+                    }
+                    else
+                    {
+                        Debug.Log("Out of Bullets");
+                    }
+                }
             }
 
             Vector3 mousepos = Input.mousePosition;
