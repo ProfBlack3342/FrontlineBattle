@@ -10,6 +10,7 @@ TagManager:
   - Spawn
   - Map
   - FX
+  - Ammo
   layers:
   - Default
   - TransparentFX

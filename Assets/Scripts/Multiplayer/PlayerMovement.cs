@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.Animations;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerMovement : NetworkBehaviour
     public GameObject bulletspawn;
     public GameObject cannon;
     public Camera cam;
+    public Animator anim;
 
     private PlayerStatus status;
 
@@ -23,6 +25,7 @@ public class PlayerMovement : NetworkBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
+        anim = GetComponent<Animator>();
 
         status = GetComponent<PlayerStatus>();
     }
@@ -41,16 +44,20 @@ public class PlayerMovement : NetworkBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if (status.GetAmmo() > 0)
+                    if (status.CmdGetAmmo() > 0)
                     {
                         Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
-                        status.CmdSetAmmo(status.GetAmmo() - 1);
+                        status.CmdSetAmmo(status.CmdGetAmmo() - 1);
                     }
                     else
                     {
                         Debug.Log("Out of Bullets");
                     }
                 }
+            }
+            else
+            {
+                anim.SetBool("Walking", false);
             }
 
             Vector3 mousepos = Input.mousePosition;
@@ -64,10 +71,10 @@ public class PlayerMovement : NetworkBehaviour
     private void Movement()
     {
         Debug.Log("Movement");
+        anim.SetBool("Walking", true);
         Vector2 input = new Vector2((Input.GetAxisRaw("Vertical") * Fspeed * Time.deltaTime), 0);
         rb.AddRelativeForce(input);
     }
-
 
     private void Rotation()
     {
@@ -76,5 +83,6 @@ public class PlayerMovement : NetworkBehaviour
 
         rb.AddTorque(input);
     }
+
 
 }

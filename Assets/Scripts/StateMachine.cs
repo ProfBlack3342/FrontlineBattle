@@ -31,7 +31,7 @@ public class StateMachine
         }
         else
         {
-            Debug.Log(currentstate.StateName + "is still running a state");
+            Debug.Log(currentstate.StateName + "is still running a state, waiting...");
         }
     }
 

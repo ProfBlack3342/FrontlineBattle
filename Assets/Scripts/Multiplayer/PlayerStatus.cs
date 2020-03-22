@@ -59,51 +59,67 @@ public class PlayerStatus : NetworkBehaviour
             }
             Debug.Log("HP = " + HP);
         }
-    }   
-
-    [Command] void CmdPlayerDead()
-    {
-        movement.enabled = false;
-        isalive = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch (other.tag)
+        Debug.Log("Colisão");
+        switch (collision.tag)
         {
-            case("Bullet"):
+            case ("Bullet"):
                 {
-                    HP -= 25;
+                    Debug.Log("Colidiu com tiro");
+                    if (collision.GetComponent<BulletMovement>().parent != gameObject.transform)
+                    {
+                        CmdSetHP(CmdGetHP() - 25);
+                    }
                     break;
                 }
             case ("Obstacle"):
                 {
-                    if(rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                        HP -= 5;
+                    Debug.Log("Colidiu com obstaculo");
+                    if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
+                        CmdSetHP(CmdGetHP() - 5);
                     break;
                 }
             case ("Trap"):
                 {
-                    HP -= 25;
+                    Debug.Log("Colidiu com armadilha");
+                    CmdSetHP(CmdGetHP() - 25);
                     break;
                 }
             case ("Player"):
                 {
+                    Debug.Log("Colidiu com outro jogador");
                     if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                        HP -= 1;
+                        CmdSetHP(CmdGetHP() - 1);
                     break;
                 }
             case ("Ammo"):
                 {
-                    ammo += 4;
+                    Debug.Log("Pegou municão");
+                    CmdSetAmmo(CmdGetAmmo() + 4);
+                    Destroy(collision.gameObject);
+                    break;
+                }
+            default:
+                {
+                    Debug.Log("Erro em definir tipo de colisão");
                     break;
                 }
         }
     }
 
+    [Command]
+    void CmdPlayerDead()
+    {
+        movement.enabled = false;
+        isalive = false;
+    }
+
     [Command]public void CmdSetHP(int HP) { this.HP = HP; }
-    public int GetHP() { return HP; }
+    public int CmdGetHP() { return HP; }
 
     [Command]public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
-    public int GetAmmo() { return ammo; }
+    public int CmdGetAmmo() { return ammo; }
 }

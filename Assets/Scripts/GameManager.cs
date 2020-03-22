@@ -9,6 +9,7 @@ public class GameManager : NetworkBehaviour
 
     public StateMachine machine;
     public State[] states = new State[6];
+    public HUDRef HUD;
 
     public bool endstateflag;
 
@@ -29,7 +30,7 @@ public class GameManager : NetworkBehaviour
     {
         machine = new StateMachine();
 
-        states[0] = new OfflineMenu();
+        states[0] = new OfflineMenu(HUD);
         states[1] = new OnlineWaiting();
         states[2] = new OnlineConnecting();
         states[3] = new OnlinePlay();

@@ -8,9 +8,10 @@ public class BulletMovement : NetworkBehaviour
     private float speed;
     private Transform self;
     private float timer;
-    private Rigidbody2D rb;
 
+    private Rigidbody2D rb;
     public GameObject explosion;
+    public Transform parent;
 
     private void Awake()
     {
