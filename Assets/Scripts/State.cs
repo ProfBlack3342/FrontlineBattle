@@ -19,7 +19,7 @@ public class OfflineMenu : State
 {
     private bool host;
     public bool stop;
-    private HUDRef HUD;
+    public HUDRef HUD;
 
     public OfflineMenu(HUDRef HUD)
     {
@@ -35,7 +35,17 @@ public class OfflineMenu : State
 
         GameManager.singleton.machine.running = true;
 
-        //
+        if(HUD ==  null)
+        {
+            HUD = GameObject.Find("HUD Controller").GetComponent<HUDRef>();
+        }
+
+        HUD.HostButton.gameObject.SetActive(true);
+        HUD.JoinButton.gameObject.SetActive(true);
+        HUD.BackButton.gameObject.SetActive(false);
+        HUD.ConnectButton.gameObject.SetActive(false);
+        HUD.input.gameObject.SetActive(false);
+        HUD.Host = HUD.Join = HUD.Back = HUD.Connect = false;
 
         GameManager.singleton.machine.loop = true;
         GameManager.singleton.machine.running = false;
@@ -47,12 +57,41 @@ public class OfflineMenu : State
 
         GameManager.singleton.machine.running = true;
 
-        //Code
+
+        if (HUD.Host)
+        {
+            host = true;
+            stop = true;
+        }
+        if(HUD.Join)
+        {
+            HUD.HostButton.gameObject.SetActive(false);
+            HUD.JoinButton.gameObject.SetActive(false);
+            HUD.BackButton.gameObject.SetActive(true);
+            HUD.ConnectButton.gameObject.SetActive(true);
+            HUD.input.gameObject.SetActive(true);
+            HUD.Join = false;
+        }
+        if(HUD.Back)
+        {
+            HUD.HostButton.gameObject.SetActive(true);
+            HUD.JoinButton.gameObject.SetActive(true);
+            HUD.BackButton.gameObject.SetActive(false);
+            HUD.ConnectButton.gameObject.SetActive(false);
+            HUD.input.gameObject.SetActive(false);
+            HUD.Back = false;
+        }
+        if(HUD.Connect)
+        {
+            host = false;
+            stop = true;
+        }
 
         if (stop)
         {
             GameManager.singleton.endstateflag = true;
         }
+
 
         GameManager.singleton.machine.running = false;
     }
@@ -64,8 +103,6 @@ public class OfflineMenu : State
         GameManager.singleton.machine.loop = false;
         GameManager.singleton.machine.running = true;
 
-        //Código
-
         if (host)
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[1]);
@@ -75,10 +112,8 @@ public class OfflineMenu : State
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[2]);
             NetworkManager.singleton.StartClient();
-            NetworkManager.singleton.networkAddress = HUD.ip.text;
+            NetworkManager.singleton.networkAddress = HUD.IP;
         }
-        
-
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
     }
@@ -92,7 +127,7 @@ public class OnlineWaiting : State
     public OnlineWaiting()
     {
         StateName = "OnlineWaiting";
-        foundplayers = false;
+        foundplayer = false;
         stop = false;
     }
 
@@ -132,7 +167,7 @@ public class OnlineWaiting : State
         GameManager.singleton.machine.running = true;
 
         //Código
-        if (foundplayers)
+        if (foundplayer)
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
         }
@@ -176,7 +211,16 @@ public class OnlineConnecting : State
 
         GameManager.singleton.machine.running = true;
 
-        //Code
+        if (NetworkClient.isConnected && !ClientScene.ready)
+        {
+            ClientScene.Ready(NetworkClient.connection);
+
+            if (ClientScene.localPlayer == null)
+            {
+                ClientScene.AddPlayer();
+                stop = true;
+            }
+        }
 
         if (stop)
         {
@@ -319,7 +363,7 @@ public class OnlinePause : State
         GameManager.singleton.machine.running = true;
 
         //Código
-        s
+
         if (resumetogame)
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);

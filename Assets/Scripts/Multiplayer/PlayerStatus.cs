@@ -5,8 +5,8 @@ using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    [SerializeField]private int HP;
-    [SerializeField]private int ammo;
+    [SerializeField] private int HP;
+    [SerializeField] private int ammo;
     public uint id;
     private Vector2 speed;
     public bool isalive;
@@ -18,7 +18,7 @@ public class PlayerStatus : NetworkBehaviour
 
     private void Awake()
     {
-        if(isClient)
+        if (isClient)
         {
             id = 2;
         }
@@ -36,12 +36,12 @@ public class PlayerStatus : NetworkBehaviour
         movement.enabled = true;
 
         rb = GetComponent<Rigidbody2D>();
-        
+
     }
 
     private void Start()
     {
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             Instantiate(cam, gameObject.transform);
             cam.tag = "MainCamera";
@@ -117,9 +117,9 @@ public class PlayerStatus : NetworkBehaviour
         isalive = false;
     }
 
-    [Command]public void CmdSetHP(int HP) { this.HP = HP; }
+    [Command] public void CmdSetHP(int HP) { this.HP = HP; }
     public int CmdGetHP() { return HP; }
 
-    [Command]public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
+    [Command] public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
     public int CmdGetAmmo() { return ammo; }
 }

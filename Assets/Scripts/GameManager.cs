@@ -11,6 +11,8 @@ public class GameManager : NetworkBehaviour
     public State[] states = new State[6];
     public HUDRef HUD;
 
+    public GameObject[] spawnpoints;
+
     public bool endstateflag;
 
     private void Awake()
@@ -36,6 +38,8 @@ public class GameManager : NetworkBehaviour
         states[3] = new OnlinePlay();
         states[4] = new OnlinePause();
         states[5] = new OnlineEnd();
+
+        spawnpoints = new GameObject[4];
 
         endstateflag = false;
 

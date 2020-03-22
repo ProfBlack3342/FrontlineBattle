@@ -32,7 +32,7 @@ public class PlayerMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             if (Input.anyKey)
             {

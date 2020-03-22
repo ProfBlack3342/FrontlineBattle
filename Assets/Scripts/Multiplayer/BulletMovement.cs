@@ -16,7 +16,7 @@ public class BulletMovement : NetworkBehaviour
     private void Awake()
     {
         speed = 10f;
-        self =  GetComponent<Transform>();
+        self = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
         timer = 2;
     }
@@ -31,7 +31,7 @@ public class BulletMovement : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Obstacle" || other.tag == "Player")
+        if (other.tag == "Obstacle" || other.tag == "Player")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject, 0.5f);
