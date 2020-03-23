@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9027848800439098418}
-  - component: {fileID: 8704492842460622239}
   m_Layer: 0
   m_Name: MuzzleFlashSpawn
   m_TagString: Untagged
@@ -31,21 +30,6 @@ Transform:
   m_Father: {fileID: 3189934588279651232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8704492842460622239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3177637620964273325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
 --- !u!1 &3189934586706095946
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +279,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3189934587986440664}
-  - component: {fileID: 5234235437281396575}
   m_Layer: 0
   m_Name: BulletSpawn
   m_TagString: Player
@@ -317,21 +300,6 @@ Transform:
   m_Father: {fileID: 3189934588279651232}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5234235437281396575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3189934587986440665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
 --- !u!1 &3189934588007533459
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,6 +551,7 @@ GameObject:
   - component: {fileID: 3189934588131987940}
   - component: {fileID: 1651708124765261864}
   - component: {fileID: 7961683789212945617}
+  - component: {fileID: 347119672533943843}
   - component: {fileID: 4974473342587813687}
   - component: {fileID: 1952478266835063999}
   - component: {fileID: 344052765838285364}
@@ -648,6 +617,26 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &347119672533943843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3189934588131987941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01
+  compressRotation: 1
+  target: {fileID: 3189934588279651232}
 --- !u!61 &4974473342587813687
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -883,7 +872,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3189934588279651232}
   - component: {fileID: 7989448415900244492}
-  - component: {fileID: 3756451073177388664}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Player
@@ -925,26 +913,6 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &3756451073177388664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3189934588279651233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
-  compressRotation: 1
-  target: {fileID: 0}
 --- !u!1 &3189934588471916125
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4132311004940472785}
   - component: {fileID: 4916918562324548027}
   - component: {fileID: 1772362927518240760}
+  - component: {fileID: -6603331162225614579}
   m_Layer: 1
   m_Name: BulletHit
   m_TagString: FX
@@ -69,6 +70,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6778ed36be46241b63f09c603b665e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6603331162225614579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132311004940472786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
 --- !u!1 &4132311005994444683
 GameObject:
   m_ObjectHideFlags: 0
