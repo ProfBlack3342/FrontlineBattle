@@ -251,7 +251,7 @@ public class OnlineConnecting : State
 
     public override void Loop()
     {
-        Debug.Log("OfflineConnecting Loop");
+        Debug.Log("OnlineConnecting Loop");
 
         GameManager.singleton.machine.running = true;
 
@@ -280,7 +280,7 @@ public class OnlineConnecting : State
 
     public override void Stop()
     {
-        Debug.Log("OfflineConnecting Stop");
+        Debug.Log("OnlineConnecting Stop");
 
         GameManager.singleton.machine.loop = false;
         GameManager.singleton.machine.running = true;
