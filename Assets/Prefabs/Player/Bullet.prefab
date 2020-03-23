@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
@@ -218,7 +218,6 @@ MonoBehaviour:
   syncInterval: 0.1
   explosion: {fileID: 4132311004940472786, guid: 77322181218c6484999cc2a2f1f7c051,
     type: 3}
-  parent: {fileID: 0}
 --- !u!61 &5834755500732987324
 BoxCollider2D:
   m_ObjectHideFlags: 0
