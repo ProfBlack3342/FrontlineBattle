@@ -8,9 +8,6 @@ public class GameManager : NetworkBehaviour
     public static GameManager singleton;
     public HUDRef HUD;
 
-    public GameObject[] spawnpoints;
-    public GameObject PlayerPrefab;
-
     public bool endgameflag;
 
 
@@ -29,8 +26,6 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
-        
-
         endgameflag = false;
     }
 
@@ -40,13 +35,5 @@ public class GameManager : NetworkBehaviour
         {
 
         }
-    }
-
-    public override void OnStartServer()
-    {
-        spawnpoints = GameObject.FindGameObjectsWithTag("Spawn");
-        Transform spawn = spawnpoints[Random.Range(0, 4)].transform;
-
-        Instantiate(PlayerPrefab, spawn.position, Quaternion.identity);
     }
 }

@@ -5,11 +5,11 @@ using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    [SerializeField] private int HP;
-    [SerializeField] private int ammo;
-    public uint id;
+    [SerializeField][SyncVar]public int HP;
+    [SerializeField][SyncVar]public int ammo;
+    [SyncVar]public uint id;
     private Vector2 speed;
-    public bool isalive;
+    [SyncVar]public bool isalive;
 
     private PlayerMovement movement;
 
@@ -55,7 +55,7 @@ public class PlayerStatus : NetworkBehaviour
         {
             if (HP <= 0)
             {
-                CmdPlayerDead();
+                PlayerDead();
             }
             Debug.Log("HP = " + HP);
         }
@@ -68,39 +68,28 @@ public class PlayerStatus : NetworkBehaviour
             Debug.Log("Colisão");
             switch (collision.tag)
             {
-                case ("Bullet"):
-                    {
-                        Debug.Log("Colidiu com tiro");
-                        if (collision.GetComponent<BulletMovement>().parent != gameObject.transform)
-                        {
-                            CmdSetHP(GetHP() - 25);
-                        }
-                        break;
-                    }
                 case ("Obstacle"):
                     {
                         Debug.Log("Colidiu com obstaculo");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                            CmdSetHP(GetHP() - 5);
-                        break;
-                    }
-                case ("Trap"):
-                    {
-                        Debug.Log("Colidiu com armadilha");
-                        CmdSetHP(GetHP() - 25);
+                        {
+                            SetHP(GetHP() - 5);
+                        }
                         break;
                     }
                 case ("Player"):
                     {
                         Debug.Log("Colidiu com outro jogador");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                            CmdSetHP(GetHP() - 1);
+                        {
+                            SetHP(GetHP() - 1);
+                        }
                         break;
                     }
                 case ("Ammo"):
                     {
                         Debug.Log("Pegou municão");
-                        CmdSetAmmo(GetAmmo() + 4);
+                        SetAmmo(GetAmmo() + 4);
                         Destroy(collision.gameObject);
                         break;
                     }
@@ -113,16 +102,15 @@ public class PlayerStatus : NetworkBehaviour
         }
     }
 
-    [Command]
-    void CmdPlayerDead()
+    void PlayerDead()
     {
         movement.enabled = false;
         isalive = false;
     }
 
-    [Command] public void CmdSetHP(int HP) { this.HP = HP; }
+    public void SetHP(int HP) { if (!isServer) return;  this.HP = HP; }
     public int GetHP() { return HP; }
 
-    [Command] public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
+    public void SetAmmo(int ammo) { if (!isServer) return; this.ammo = ammo; }
     public int GetAmmo() { return ammo; }
 }

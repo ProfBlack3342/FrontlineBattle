@@ -11,7 +11,6 @@ public class BulletMovement : NetworkBehaviour
 
     private Rigidbody2D rb;
     public GameObject explosion;
-    public Transform parent;
 
     private void Awake()
     {
@@ -29,12 +28,31 @@ public class BulletMovement : NetworkBehaviour
         Destroy(gameObject, timer);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.tag == "Obstacle" || other.tag == "Player")
+        if (collision.tag == "Obstacle" || collision.tag == "Player")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject, 0.5f);
+            if (collision.tag == "Player")
+            {
+                CmdDamage(collision.gameObject);
+            }
+            Destroy(gameObject);
         }
+    }
+
+    [Command]
+    public void CmdDamage(GameObject enemy)
+    {
+        enemy.GetComponent<PlayerStatus>().HP -= 25;
+
+        NetworkIdentity enemyIdentity = enemy.GetComponent<NetworkIdentity>();
+        TargetDamage(enemyIdentity.connectionToClient, 25);
+    }
+
+    [TargetRpc]
+    public void TargetDamage(NetworkConnection connection, float damage)
+    {
+        Debug.Log("Recebeu" + damage + " de dano");
     }
 }
