@@ -63,50 +63,53 @@ public class PlayerStatus : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Colisão");
-        switch (collision.tag)
+        if (isLocalPlayer)
         {
-            case ("Bullet"):
-                {
-                    Debug.Log("Colidiu com tiro");
-                    if (collision.GetComponent<BulletMovement>().parent != gameObject.transform)
+            Debug.Log("Colisão");
+            switch (collision.tag)
+            {
+                case ("Bullet"):
                     {
-                        CmdSetHP(CmdGetHP() - 25);
+                        Debug.Log("Colidiu com tiro");
+                        if (collision.GetComponent<BulletMovement>().parent != gameObject.transform)
+                        {
+                            CmdSetHP(CmdGetHP() - 25);
+                        }
+                        break;
                     }
-                    break;
-                }
-            case ("Obstacle"):
-                {
-                    Debug.Log("Colidiu com obstaculo");
-                    if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                        CmdSetHP(CmdGetHP() - 5);
-                    break;
-                }
-            case ("Trap"):
-                {
-                    Debug.Log("Colidiu com armadilha");
-                    CmdSetHP(CmdGetHP() - 25);
-                    break;
-                }
-            case ("Player"):
-                {
-                    Debug.Log("Colidiu com outro jogador");
-                    if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                        CmdSetHP(CmdGetHP() - 1);
-                    break;
-                }
-            case ("Ammo"):
-                {
-                    Debug.Log("Pegou municão");
-                    CmdSetAmmo(CmdGetAmmo() + 4);
-                    Destroy(collision.gameObject);
-                    break;
-                }
-            default:
-                {
-                    Debug.Log("Erro em definir tipo de colisão");
-                    break;
-                }
+                case ("Obstacle"):
+                    {
+                        Debug.Log("Colidiu com obstaculo");
+                        if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
+                            CmdSetHP(CmdGetHP() - 5);
+                        break;
+                    }
+                case ("Trap"):
+                    {
+                        Debug.Log("Colidiu com armadilha");
+                        CmdSetHP(CmdGetHP() - 25);
+                        break;
+                    }
+                case ("Player"):
+                    {
+                        Debug.Log("Colidiu com outro jogador");
+                        if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
+                            CmdSetHP(CmdGetHP() - 1);
+                        break;
+                    }
+                case ("Ammo"):
+                    {
+                        Debug.Log("Pegou municão");
+                        CmdSetAmmo(CmdGetAmmo() + 4);
+                        Destroy(collision.gameObject);
+                        break;
+                    }
+                default:
+                    {
+                        Debug.Log("Erro em definir tipo de colisão");
+                        break;
+                    }
+            }
         }
     }
 
