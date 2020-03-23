@@ -37,7 +37,7 @@ public class OfflineMenu : State
 
         if(HUD ==  null)
         {
-            HUD = GameObject.Find("HUD Controller").GetComponent<HUDRef>();
+            HUD = GameObject.Find("HUD Listener").GetComponent<HUDRef>();
         }
 
         HUD.HostButton.gameObject.SetActive(true);
@@ -45,7 +45,9 @@ public class OfflineMenu : State
         HUD.BackButton.gameObject.SetActive(false);
         HUD.ConnectButton.gameObject.SetActive(false);
         HUD.input.gameObject.SetActive(false);
-        HUD.Host = HUD.Join = HUD.Back = HUD.Connect = false;
+        HUD.ReadyButton.gameObject.SetActive(false);
+        HUD.infobox.gameObject.SetActive(false);
+        HUD.Host = HUD.Join = HUD.Back = HUD.Connect = HUD.Ready = false;
 
         GameManager.singleton.machine.loop = true;
         GameManager.singleton.machine.running = false;
@@ -123,21 +125,31 @@ public class OnlineWaiting : State
 {
     public bool foundplayer;
     public bool stop;
+    public HUDRef HUD;
+    public GameObject[] PlayerList;
+    public PlayerMovement Player;
 
-    public OnlineWaiting()
+    public OnlineWaiting(HUDRef HUD)
     {
         StateName = "OnlineWaiting";
         foundplayer = false;
         stop = false;
+        this.HUD = HUD;
     }
 
     public override void Start()
     {
-        Debug.Log("OfflineWaiting Start");
+        Debug.Log("OnlineWaiting Start");
 
         GameManager.singleton.machine.running = true;
 
-        //Código
+
+        HUD.HostButton.gameObject.SetActive(false);
+        HUD.JoinButton.gameObject.SetActive(false);
+        HUD.BackButton.gameObject.SetActive(false);
+        HUD.ConnectButton.gameObject.SetActive(false);
+        HUD.input.gameObject.SetActive(false);
+
 
         GameManager.singleton.machine.loop = true;
         GameManager.singleton.machine.running = false;
@@ -145,36 +157,58 @@ public class OnlineWaiting : State
 
     public override void Loop()
     {
-        Debug.Log("OfflineWaiting Loop");
+        Debug.Log("OnlineWaiting Loop");
 
         GameManager.singleton.machine.running = true;
 
-        //Code
+        if (NetworkClient.isConnected && !ClientScene.ready)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            if(Player != null)
+                Player.enabled = false;
+        }
+
+        PlayerList = GameObject.FindGameObjectsWithTag("Player");
+
+        if (PlayerList.Length == 2 && PlayerList != null)
+        {
+            stop = true;
+            foundplayer = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            stop = true;
+        }
 
         if (stop)
         {
             GameManager.singleton.endstateflag = true;
         }
 
+
         GameManager.singleton.machine.running = false;
     }
 
     public override void Stop()
     {
-        Debug.Log("OfflineWaiting Stop");
+        Debug.Log("OnlineWaiting Stop");
 
         GameManager.singleton.machine.loop = false;
         GameManager.singleton.machine.running = true;
 
-        //Código
+
         if (foundplayer)
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[3]);
+            Player.enabled = true;
+
         }
         else
         {
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[0]);
         }
+
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;
@@ -185,12 +219,14 @@ public class OnlineConnecting : State
 {
     public bool foundhost;
     public bool stop;
+    public HUDRef HUD;
 
-    public OnlineConnecting()
+    public OnlineConnecting(HUDRef HUD)
     {
         StateName = "OnlineConnecting";
         foundhost = false;
         stop = false;
+        this.HUD = HUD;
     }
 
     public override void Start()
@@ -199,7 +235,15 @@ public class OnlineConnecting : State
 
         GameManager.singleton.machine.running = true;
 
-        //Código
+
+        HUD.HostButton.gameObject.SetActive(false);
+        HUD.JoinButton.gameObject.SetActive(false);
+        HUD.BackButton.gameObject.SetActive(false);
+        HUD.ConnectButton.gameObject.SetActive(false);
+        HUD.input.gameObject.SetActive(false);
+        HUD.ReadyButton.gameObject.SetActive(true);
+        HUD.infobox.gameObject.SetActive(true);
+
 
         GameManager.singleton.machine.loop = true;
         GameManager.singleton.machine.running = false;
@@ -213,12 +257,16 @@ public class OnlineConnecting : State
 
         if (NetworkClient.isConnected && !ClientScene.ready)
         {
-            ClientScene.Ready(NetworkClient.connection);
-
-            if (ClientScene.localPlayer == null)
+            if (HUD.Ready)
             {
-                ClientScene.AddPlayer();
-                stop = true;
+                HUD.Ready = false;
+                ClientScene.Ready(NetworkClient.connection);
+
+                if (ClientScene.localPlayer == null)
+                {
+                    ClientScene.AddPlayer();
+                    stop = true;
+                }
             }
         }
 
@@ -362,7 +410,6 @@ public class OnlinePause : State
         GameManager.singleton.machine.loop = false;
         GameManager.singleton.machine.running = true;
 
-        //Código
 
         if (resumetogame)
         {
@@ -370,8 +417,10 @@ public class OnlinePause : State
         }
         else
         {
+            NetworkManager.singleton.StopHost();
             GameManager.singleton.machine.ChangeCurrent(GameManager.singleton.states[5]);
         }
+
 
         GameManager.singleton.machine.running = false;
         GameManager.singleton.endstateflag = false;

@@ -6,11 +6,12 @@ using Mirror;
 
 public class HUDRef : MonoBehaviour
 {
-    public Button HostButton, JoinButton, BackButton, ConnectButton;
+    public Button HostButton, JoinButton, BackButton, ConnectButton, ReadyButton;
     public InputField input;
+    public Text infobox;
     public string IP;
 
-    public bool Host, Join, Back, Connect;
+    public bool Host, Join, Back, Connect, Ready;
 
     public void HostGame()
     {
@@ -32,8 +33,18 @@ public class HUDRef : MonoBehaviour
         Connect = true;
     }
 
+    public void ReadyToGo()
+    {
+        Ready = true;
+    }
+
     public void SetIP()
     {
         IP = input.text;
+    }
+
+    public void SetInfo(string info)
+    {
+        infobox.text = info;
     }
 }
