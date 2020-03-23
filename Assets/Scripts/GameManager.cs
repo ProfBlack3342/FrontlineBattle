@@ -6,14 +6,13 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton;
-
-    public StateMachine machine;
-    public State[] states = new State[6];
     public HUDRef HUD;
 
     public GameObject[] spawnpoints;
+    public GameObject PlayerPrefab;
 
-    public bool endstateflag;
+    public bool endgameflag;
+
 
     private void Awake()
     {
@@ -30,34 +29,24 @@ public class GameManager : NetworkBehaviour
 
     private void Start()
     {
-        machine = new StateMachine();
+        
 
-        states[0] = new OfflineMenu(HUD);
-        states[1] = new OnlineWaiting(HUD);
-        states[2] = new OnlineConnecting(HUD);
-        states[3] = new OnlinePlay();
-        states[4] = new OnlinePause();
-        states[5] = new OnlineEnd();
-
-        spawnpoints = new GameObject[4];
-
-        endstateflag = false;
-
-        machine.ChangeCurrent(states[0]);
-        machine.ExecuteState();
+        endgameflag = false;
     }
 
     private void Update()
     {
-        if (!endstateflag)
+        if(endgameflag)
         {
-            Debug.Log("GameManager Update() calling for ExecuteState()");
-            machine.ExecuteState();
+
         }
-        else
-        {
-            Debug.Log("GameManager Update() calling for EndState()");
-            machine.EndState();
-        }
+    }
+
+    public override void OnStartServer()
+    {
+        spawnpoints = GameObject.FindGameObjectsWithTag("Spawn");
+        Transform spawn = spawnpoints[Random.Range(0, 4)].transform;
+
+        Instantiate(PlayerPrefab, spawn.position, Quaternion.identity);
     }
 }

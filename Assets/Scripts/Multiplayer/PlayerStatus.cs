@@ -73,7 +73,7 @@ public class PlayerStatus : NetworkBehaviour
                         Debug.Log("Colidiu com tiro");
                         if (collision.GetComponent<BulletMovement>().parent != gameObject.transform)
                         {
-                            CmdSetHP(CmdGetHP() - 25);
+                            CmdSetHP(GetHP() - 25);
                         }
                         break;
                     }
@@ -81,26 +81,26 @@ public class PlayerStatus : NetworkBehaviour
                     {
                         Debug.Log("Colidiu com obstaculo");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                            CmdSetHP(CmdGetHP() - 5);
+                            CmdSetHP(GetHP() - 5);
                         break;
                     }
                 case ("Trap"):
                     {
                         Debug.Log("Colidiu com armadilha");
-                        CmdSetHP(CmdGetHP() - 25);
+                        CmdSetHP(GetHP() - 25);
                         break;
                     }
                 case ("Player"):
                     {
                         Debug.Log("Colidiu com outro jogador");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
-                            CmdSetHP(CmdGetHP() - 1);
+                            CmdSetHP(GetHP() - 1);
                         break;
                     }
                 case ("Ammo"):
                     {
                         Debug.Log("Pegou municão");
-                        CmdSetAmmo(CmdGetAmmo() + 4);
+                        CmdSetAmmo(GetAmmo() + 4);
                         Destroy(collision.gameObject);
                         break;
                     }
@@ -121,8 +121,8 @@ public class PlayerStatus : NetworkBehaviour
     }
 
     [Command] public void CmdSetHP(int HP) { this.HP = HP; }
-    public int CmdGetHP() { return HP; }
+    public int GetHP() { return HP; }
 
     [Command] public void CmdSetAmmo(int ammo) { this.ammo = ammo; }
-    public int CmdGetAmmo() { return ammo; }
+    public int GetAmmo() { return ammo; }
 }

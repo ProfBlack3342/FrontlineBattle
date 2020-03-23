@@ -44,10 +44,10 @@ public class PlayerMovement : NetworkBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if (status.CmdGetAmmo() > 0)
+                    if (status.GetAmmo() > 0)
                     {
-                        Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
-                        status.CmdSetAmmo(status.CmdGetAmmo() - 1);
+                        CmdSpawnBullet();
+                        status.CmdSetAmmo(status.GetAmmo() - 1);
                     }
                     else
                     {
@@ -66,6 +66,12 @@ public class PlayerMovement : NetworkBehaviour
             Vector2 direction = new Vector2(mousepos.x, mousepos.y);
             cannon.transform.right = direction;
         }
+    }
+
+    [Command]
+    public void CmdSpawnBullet()
+    {
+        Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
     }
 
     private void Movement()
