@@ -44,10 +44,10 @@ public class PlayerMovement : NetworkBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if (status.GetAmmo() > 0)
+                    if (status.ammo > 0)
                     {
-                        CmdSpawnBullet();
-                        status.SetAmmo(status.GetAmmo() - 1);
+                        SpawnBullet();
+                        status.ammo -= 1;
                     }
                     else
                     {
@@ -68,8 +68,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdSpawnBullet()
+    public void SpawnBullet()
     {
         Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
     }
@@ -95,6 +94,4 @@ public class PlayerMovement : NetworkBehaviour
             rb.AddTorque(input);
         }
     }
-
-
 }

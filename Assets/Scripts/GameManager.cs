@@ -6,7 +6,6 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton;
-    public HUDRef HUD;
 
     public bool endgameflag;
 

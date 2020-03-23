@@ -68,12 +68,24 @@ public class PlayerStatus : NetworkBehaviour
             Debug.Log("Colisão");
             switch (collision.tag)
             {
+                case ("Bullet"):
+                    {
+                        Debug.Log("Colidiu com tiro");
+                        HP -= 25;
+                        break;
+                    }
+                case ("Trap"):
+                    {
+                        Debug.Log("Colidiu com armadilha");
+                        HP -= 50;
+                        break;
+                    }
                 case ("Obstacle"):
                     {
                         Debug.Log("Colidiu com obstaculo");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
                         {
-                            SetHP(GetHP() - 5);
+                            HP -= 10;
                         }
                         break;
                     }
@@ -82,14 +94,14 @@ public class PlayerStatus : NetworkBehaviour
                         Debug.Log("Colidiu com outro jogador");
                         if (rb.velocity.y > speed.y || rb.velocity.y < -speed.y)
                         {
-                            SetHP(GetHP() - 1);
+                            HP -= 4;
                         }
                         break;
                     }
                 case ("Ammo"):
                     {
                         Debug.Log("Pegou municão");
-                        SetAmmo(GetAmmo() + 4);
+                        ammo += 4;
                         Destroy(collision.gameObject);
                         break;
                     }
@@ -107,10 +119,4 @@ public class PlayerStatus : NetworkBehaviour
         movement.enabled = false;
         isalive = false;
     }
-
-    public void SetHP(int HP) { if (!isServer) return;  this.HP = HP; }
-    public int GetHP() { return HP; }
-
-    public void SetAmmo(int ammo) { if (!isServer) return; this.ammo = ammo; }
-    public int GetAmmo() { return ammo; }
 }

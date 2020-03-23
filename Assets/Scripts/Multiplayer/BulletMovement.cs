@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-public class BulletMovement : NetworkBehaviour
+public class BulletMovement : MonoBehaviour
 {
     private float speed;
     private Transform self;
@@ -33,26 +32,7 @@ public class BulletMovement : NetworkBehaviour
         if (collision.tag == "Obstacle" || collision.tag == "Player")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
-            if (collision.tag == "Player")
-            {
-                CmdDamage(collision.gameObject);
-            }
             Destroy(gameObject);
         }
-    }
-
-    [Command]
-    public void CmdDamage(GameObject enemy)
-    {
-        enemy.GetComponent<PlayerStatus>().HP -= 25;
-
-        NetworkIdentity enemyIdentity = enemy.GetComponent<NetworkIdentity>();
-        TargetDamage(enemyIdentity.connectionToClient, 25);
-    }
-
-    [TargetRpc]
-    public void TargetDamage(NetworkConnection connection, float damage)
-    {
-        Debug.Log("Recebeu" + damage + " de dano");
     }
 }
