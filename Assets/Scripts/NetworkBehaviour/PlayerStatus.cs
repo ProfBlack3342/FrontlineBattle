@@ -8,7 +8,7 @@ public class PlayerStatus : NetworkBehaviour
 {
     public int HP;
     public int ammo;
-    public uint id;
+    public uint id = 0;
     private Vector2 speed;
     public bool isalive;
 
@@ -127,5 +127,18 @@ public class PlayerStatus : NetworkBehaviour
         movement.enabled = false;
         Instantiate(explosion, gameObject.transform.position, Quaternion.identity);
         isalive = false;
+        CmdEndGame();
+    }
+
+    [Command]
+    private void CmdEndGame()
+    {
+        RpcEndGame();
+    }
+
+    [ClientRpc]
+    private void RpcEndGame()
+    {
+        GameManager.singleton.endgameflag = true;
     }
 }

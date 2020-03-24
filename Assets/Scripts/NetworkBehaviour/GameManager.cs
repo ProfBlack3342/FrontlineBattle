@@ -6,6 +6,7 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton;
+    public GameObject manager;
 
     public bool endgameflag, gamestart;
 
@@ -38,37 +39,7 @@ public class GameManager : NetworkBehaviour
             {
                 Debug.Log("GameOver");
 
-                PlayerStatus winnerinfo = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
-
-                if (isServer)
-                {
-                    if (winnerinfo.id == 1)
-                    {
-                        Debug.Log("Sou o server e ganhei o jogo");
-                    }
-                    else
-                    {
-                        Debug.Log("Sou o server e perdi o jogo");
-                    }
-                }
-                else if (isClient)
-                {
-                    if (winnerinfo.id == 2)
-                    {
-                        Debug.Log("Sou o cliente e ganhei o jogo");
-                    }
-                    else
-                    {
-                        Debug.Log("Sou o cliente e perdi o jogo");
-                    }
-                }
-            }
-            else
-            {
-                if (GameObject.FindGameObjectsWithTag("Player").Length == 1)
-                    endgameflag = true;
-                else if (GameObject.FindGameObjectsWithTag("Player") == null)
-                    Debug.Log("N achou Players");
+                //Determinar quem ganhou e encerrar o jogo
             }
         }
     }

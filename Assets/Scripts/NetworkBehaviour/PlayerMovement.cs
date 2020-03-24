@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    private float Fspeed, Rspeed;
+    private float Fspeed;
     private Vector2 mousepos;
 
     public Rigidbody2D rb;
@@ -21,7 +21,6 @@ public class PlayerMovement : NetworkBehaviour
     private void Awake()
     {
         Fspeed = 1000f;
-        Rspeed = 5f;
 
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
