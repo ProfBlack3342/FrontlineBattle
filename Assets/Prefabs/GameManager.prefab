@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7895194091357077624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.0205874, y: 0.515431, z: -0.27123135}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -45,5 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  network: {fileID: 8168310504892942808, guid: 16784797a8ea34f4ea407b0cfa7d91ab, type: 3}
-  endstateflag: 0
+  manager: {fileID: 8168310504892942812, guid: 16784797a8ea34f4ea407b0cfa7d91ab, type: 3}
+  endgameflag: 0
+  gamestart: 0
