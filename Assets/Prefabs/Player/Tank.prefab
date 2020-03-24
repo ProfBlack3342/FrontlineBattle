@@ -747,7 +747,10 @@ MonoBehaviour:
   HP: 0
   ammo: 0
   id: 0
-  isalive: 0
+  isalive: 1
+  explosion: {fileID: 4132311004940472786, guid: 94340c0fa69370a4c98acbab30577c2d,
+    type: 3}
+  hpstate: {fileID: 3842926563017097575}
   cam: {fileID: 3972820335411741579, guid: 86f1c85f95026b54d952ee4b1186f32f, type: 3}
 --- !u!95 &3842926563017097575
 Animator:

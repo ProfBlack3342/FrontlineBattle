@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
+  clientAuthority: 0
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
@@ -214,8 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22601c1a7e25abe44b1d0069edbc8863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   explosion: {fileID: 4132311004940472786, guid: 77322181218c6484999cc2a2f1f7c051,
     type: 3}
 --- !u!61 &5834755500732987324
