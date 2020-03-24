@@ -46,7 +46,7 @@ public class PlayerMovement : NetworkBehaviour
                 {
                     if (status.ammo > 0)
                     {
-                        SpawnBullet();
+                        CmdSpawnBullet();
                         status.ammo -= 1;
                     }
                     else
@@ -68,30 +68,32 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    public void SpawnBullet()
+    [Command]
+    public void CmdSpawnBullet()
+    {
+        RpcSpawnBullet();
+    }
+
+    [ClientRpc]
+    public void RpcSpawnBullet()
     {
         Instantiate(bullet, bulletspawn.transform.position, bulletspawn.transform.rotation);
     }
 
     private void Movement()
     {
-        if (isLocalPlayer)
-        {
-            Debug.Log("Movement");
-            anim.SetBool("Walking", true);
-            Vector2 input = new Vector2((Input.GetAxisRaw("Vertical") * Fspeed * Time.deltaTime), 0);
-            rb.AddRelativeForce(input);
-        }
+        Debug.Log("Movement");
+
+        anim.SetBool("Walking", true);
+        Vector2 input = new Vector2((Input.GetAxisRaw("Vertical") * Fspeed * Time.deltaTime), 0);
+        rb.AddRelativeForce(input);
     }
 
     private void Rotation()
-    {
-        if (isLocalPlayer)
-        {
-            Debug.Log("Rotation");
-            float input = -Input.GetAxisRaw("Horizontal");
+    { 
+        Debug.Log("Rotation");
 
-            rb.AddTorque(input);
-        }
+        float input = -Input.GetAxisRaw("Horizontal");
+        rb.AddTorque(input);
     }
 }

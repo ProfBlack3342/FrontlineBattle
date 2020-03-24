@@ -24,7 +24,10 @@ public class CameraScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 newpos = player.position + cameraoffset;
-        transform.position = Vector3.Slerp(transform.position, newpos, smooth);
+        if (player != null)
+        {
+            Vector3 newpos = player.position + cameraoffset;
+            transform.position = Vector3.Slerp(transform.position, newpos, smooth);
+        }
     }
 }

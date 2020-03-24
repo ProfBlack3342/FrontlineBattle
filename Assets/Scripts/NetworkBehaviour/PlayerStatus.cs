@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    [SerializeField][SyncVar]public int HP;
-    [SerializeField][SyncVar]public int ammo;
-    [SyncVar]public uint id;
+    public int HP;
+    public int ammo;
+    public uint id;
     private Vector2 speed;
-    [SyncVar]public bool isalive;
+    public bool isalive;
+
+    public GameObject explosion;
+    public Animator hpstate;
 
     private PlayerMovement movement;
-
     private Rigidbody2D rb;
     public Camera cam;
 
@@ -46,6 +49,7 @@ public class PlayerStatus : NetworkBehaviour
             Instantiate(cam, gameObject.transform);
             cam.tag = "MainCamera";
             movement.cam = cam;
+            GameManager.singleton.gamestart = true;
         }
     }
 
@@ -55,9 +59,13 @@ public class PlayerStatus : NetworkBehaviour
         {
             if (HP <= 0)
             {
-                PlayerDead();
+                HP = 0;
+                if(isalive)
+                    PlayerDead();
             }
+            hpstate.SetFloat("HP", HP);
             Debug.Log("HP = " + HP);
+            Debug.Log("Ammo = " + ammo);
         }
     }
 
@@ -117,6 +125,7 @@ public class PlayerStatus : NetworkBehaviour
     void PlayerDead()
     {
         movement.enabled = false;
+        Instantiate(explosion, gameObject.transform.position, Quaternion.identity);
         isalive = false;
     }
 }
