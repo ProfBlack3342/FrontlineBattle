@@ -6,7 +6,8 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton;
-    public GameObject manager;
+
+    public PlayerStatus player;
 
     public bool endgameflag, gamestart;
 
@@ -39,8 +40,34 @@ public class GameManager : NetworkBehaviour
             {
                 Debug.Log("GameOver");
 
-                //Determinar quem ganhou e encerrar o jogo
+                if(player.HP <= 0)
+                {
+                    Debug.Log("Perdeu o jogo");
+                }
+                else
+                {
+                    Debug.Log("Ganhou o jogo");
+                }
+
+                player.movement.enabled = false;
+                player.enabled = false;
             }
         }
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        Debug.Log("StartLocalPlayer");
+        player.movement.enabled = true;
+        player.enabled = true;
+    }
+
+    public override void OnNetworkDestroy()
+    {
+        Debug.Log("OnNetworkDestroy");
+        endgameflag = false;
+        gamestart = false;
+        player.movement.enabled = false;
+        player.enabled = false;
     }
 }

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    private Transform player;
-    private Vector3 cameraoffset;
 
     [Range(0.01f, 1.0f)]
     public float smooth;
+
+    private Vector3 cameraoffset;
+    private Transform player;
+
 
     private void Awake()
     {

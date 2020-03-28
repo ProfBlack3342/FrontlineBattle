@@ -5,7 +5,6 @@ using UnityEngine;
 public class BulletMovement : MonoBehaviour
 {
     private float speed;
-    private Transform self;
     private float timer;
 
     private Rigidbody2D rb;
@@ -14,9 +13,9 @@ public class BulletMovement : MonoBehaviour
     private void Awake()
     {
         speed = 10f;
-        self = GetComponent<Transform>();
-        rb = GetComponent<Rigidbody2D>();
         timer = 2;
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()

@@ -6,30 +6,22 @@ using Mirror;
 
 public class PlayerStatus : NetworkBehaviour
 {
-    public int HP;
     public int ammo;
-    public uint id = 0;
-    private Vector2 speed;
+    public int HP;
     public bool isalive;
+
+    private Vector2 speed;
 
     public GameObject explosion;
     public Animator hpstate;
 
-    private PlayerMovement movement;
-    private Rigidbody2D rb;
     public Camera cam;
+    public PlayerMovement movement;
+    private Rigidbody2D rb;
+    
 
     private void Awake()
     {
-        if (isClient)
-        {
-            id = 2;
-        }
-        if (isServer)
-        {
-            id = 1;
-        }
-
         HP = 100;
         ammo = 5;
         speed = new Vector2(0, 3);
@@ -39,7 +31,7 @@ public class PlayerStatus : NetworkBehaviour
         movement.enabled = true;
 
         rb = GetComponent<Rigidbody2D>();
-
+        GameManager.singleton.player = this;
     }
 
     private void Start()
@@ -122,9 +114,8 @@ public class PlayerStatus : NetworkBehaviour
         }
     }
 
-    void PlayerDead()
+    private void PlayerDead()
     {
-        movement.enabled = false;
         Instantiate(explosion, gameObject.transform.position, Quaternion.identity);
         isalive = false;
         CmdEndGame();
